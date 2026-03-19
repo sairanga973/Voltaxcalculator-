@@ -1,0 +1,208 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>VoltaX Calculator</title>  
+    <style>  /* Body Styling */  
+    body {  
+        font-family: Arial, sans-serif;  
+        background: linear-gradient(135deg, #0f172a, #1e293b);  
+        color: orange;  
+        text-align: center;  
+        padding: 20px;  
+    }  
+
+    /* Title */  
+    h1 {  
+        color: #8B0000;  
+        font-size: 40px;  
+        margin-bottom: 10px;  
+    }  
+
+    /* Section Headings */  
+    h3 {  
+        color: #facc15;  
+    }  
+
+    /* Input Fields */  
+    input[type="number"] {  
+        width: 200px;  
+        padding: 10px;  
+        border-radius: 8px;  
+        border: none;  
+        outline: none;  
+        margin: 5px;  
+        font-size: 16px;  
+    }  
+
+    /* Buttons */  
+    button {  
+        background: #38bdf8;  
+        color: red;  
+        border: none;  
+        padding: 10px 15px;  
+        margin: 5px;  
+        border-radius: 8px;  
+        font-size: 16px;  
+        cursor: pointer;  
+        transition: 0.3s;  
+    }  
+
+    button:hover {  
+        background: #0ea5e9;  
+        transform: scale(1.05);  
+    }  
+
+    /* Checkboxes */  
+    input[type="checkbox"] {  
+        margin-right: 8px;  
+    }  
+
+    /* Results Box */  
+    #results {  
+        margin-top: 15px;  
+        padding: 15px;  
+        background: #1e293b;  
+        border-radius: 10px;  
+        min-height: 40px;  
+        font-size: 18px;  
+        border: 1px solid #38bdf8;  
+    }  
+
+    /* Divider */  
+    hr {  
+        margin: 20px 0;  
+        border: 1px solid #334155;  
+    }  
+
+</style>
+
+</head>  
+<body>  <h1>VOLTAX ⚡</h1>  
+
+<!-- Numbers -->  
+<h3>Enter Numbers</h3>  
+
+<div id="numbersList">  
+    <input type="number" placeholder="Number 1"><br><br>  
+    <input type="number" placeholder="Number 2"><br><br>  
+    <input type="number" placeholder="Number 3"><br><br>  
+</div>  
+
+<button onclick="addNumber()">Add Number</button>  
+<button onclick="clearAll()">Clear All</button>  
+
+<hr>  
+
+<!-- Operations -->  
+<h3>Select Operation</h3>  
+
+<input type="checkbox" id="sum"> Sum <br>  
+<input type="checkbox" id="product"> Product <br>  
+<input type="checkbox" id="average"> Average <br>  
+<input type="checkbox" id="min"> Minimum <br>  
+<input type="checkbox" id="max"> Maximum <br>  
+<input type="checkbox" id="sqrt"> Square Root <br>  
+
+<br>  
+<button onclick="calculate()">Calculate</button>  
+
+<hr>  
+
+<!-- Results -->  
+<h3>Results</h3>  
+
+<div id="results">  
+    Output will come here...  
+</div>  
+
+<script>  
+
+    // Add new number input  
+    function addNumber() {  
+        let div = document.getElementById("numbersList");  
+
+        let input = document.createElement("input");  
+        input.type = "number";  
+        input.placeholder = "New Number";  
+
+        div.appendChild(input);  
+        div.appendChild(document.createElement("br"));  
+        div.appendChild(document.createElement("br"));  
+    }  
+
+    // Clear all inputs  
+    function clearAll() {  
+        document.getElementById("numbersList").innerHTML = "";  
+        document.getElementById("results").innerHTML = "Cleared!";  
+    }  
+
+    // Get all numbers  
+    function getNumbers() {  
+        let inputs = document.querySelectorAll("#numbersList input");  
+        let numbers = [];  
+
+        inputs.forEach(input => {  
+            let value = parseFloat(input.value);  
+            if (!isNaN(value)) {  
+                numbers.push(value);  
+            }  
+        });  
+
+        return numbers;  
+    }  
+
+    // Main calculation  
+    function calculate() {  
+        let nums = getNumbers();  
+        let resultText = "";  
+
+        if (nums.length === 0) {  
+            document.getElementById("results").innerHTML = "Enter numbers first!";  
+            return;  
+        }  
+
+        // SUM  
+        if (document.getElementById("sum").checked) {  
+            let sum = nums.reduce((a, b) => a + b, 0);  
+            resultText += "Sum: " + sum + "<br>";  
+        }  
+
+        // PRODUCT  
+        if (document.getElementById("product").checked) {  
+            let product = nums.reduce((a, b) => a * b, 1);  
+            resultText += "Product: " + product + "<br>";  
+        }  
+
+        // AVERAGE  
+        if (document.getElementById("average").checked) {  
+            let avg = nums.reduce((a, b) => a + b, 0) / nums.length;  
+            resultText += "Average: " + avg + "<br>";  
+        }  
+
+        // MIN  
+        if (document.getElementById("min").checked) {  
+            let min = Math.min(...nums);  
+            resultText += "Minimum: " + min + "<br>";  
+        }  
+
+        // MAX  
+        if (document.getElementById("max").checked) {  
+            let max = Math.max(...nums);  
+            resultText += "Maximum: " + max + "<br>";  
+        }  
+
+        // SQRT (for each number)  
+        if (document.getElementById("sqrt").checked) {  
+            let sqrtValues = nums.map(n => Math.sqrt(n).toFixed(2));  
+            resultText += "Square Roots: " + sqrtValues.join(", ") + "<br>";  
+        }  
+
+        // Show result  
+        document.getElementById("results").innerHTML = resultText || "Select at least one operation!";  
+    }  
+
+</script>
+
+</body>  
+</html>  
